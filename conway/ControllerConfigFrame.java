@@ -19,7 +19,8 @@ import javax.swing.JSlider;
 
 public class ControllerConfigFrame extends JFrame {
 
-  private Color liveColor = new Color(98,239,131); // Default to a bright green
+  private final Color DEFAULT_COLOR = new Color(98,239,131); // Default to a bright green
+  private Color liveColor;
   private StartSeedStyle style;
   private JPanel stylePanel;
   private JPanel speedPanel;
@@ -41,6 +42,7 @@ public class ControllerConfigFrame extends JFrame {
     setLayout(new GridLayout(5,1));
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setLocation(200,200); // Don't want it on the edge, should be safe on most monitors
+    liveColor = DEFAULT_COLOR;
 
     try {
       setIconImage(ImageIO.read(getClass().getResource("/resources/icon.png")));
@@ -118,7 +120,7 @@ public class ControllerConfigFrame extends JFrame {
       liveColor = JColorChooser.showDialog(null, "Select a color for live cells", Color.WHITE);
       // Because the JColorChooser cancel button will null liveColor
       if (liveColor == null) {
-        liveColor = new Color(98,239,131); // Reset to the default green
+        liveColor = DEFAULT_COLOR; // Reset to the default green
       } else {/* Use the color from the JColorChooser */}
     }
   }
