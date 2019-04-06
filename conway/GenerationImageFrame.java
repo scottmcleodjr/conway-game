@@ -6,7 +6,6 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.awt.Toolkit;
 import java.io.IOException;
-import java.io.File;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
