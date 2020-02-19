@@ -109,7 +109,7 @@ public class ControllerConfigFrame extends JFrame {
       } else if (styleBoxLineRadioButton.isSelected()) {
         style = StartSeedStyle.BOX_LINE;
       }
-      Controller controller = new Controller(speedSlider.getValue(), style, launchFullScreenCheckBox.isSelected(),
+      Controller controller = new Controller(1, speedSlider.getValue(), style, launchFullScreenCheckBox.isSelected(),
           liveColor);
       controller.start();
       dispose();
