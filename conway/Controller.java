@@ -11,12 +11,10 @@ public class Controller {
   private int cellsWide;
   private int cellsHigh;
   private Color liveColor;
-  private Timer timer;
-  private int timerDelayMillis; // Milliseconds
-
   private Generation state;
   private GenerationImage image;
   private GenerationImageFrame frame;
+  private Timer timer;
 
   public Controller(int delay, StartSeedStyle style, boolean launchFullScreen, Color liveColor) {
     cellsWide = Toolkit.getDefaultToolkit().getScreenSize().width;
@@ -26,15 +24,13 @@ public class Controller {
       cellsWide *= 0.8;
       cellsHigh *= 0.8;
     }
-
-    timerDelayMillis = delay;
     this.liveColor = liveColor;
 
     state = new Generation((cellsHigh + 2), (cellsWide + 2), style); // +2 to add border values
     image = new GenerationImage(state.getCurrentGeneration(), cellsWide, cellsHigh, liveColor);
     frame = new GenerationImageFrame(image, launchFullScreen);
 
-    timer = new Timer(timerDelayMillis, new TimerEvent());
+    timer = new Timer(delay, new TimerEvent());
   }
 
   public void start() {
