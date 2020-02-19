@@ -21,21 +21,17 @@ public class Controller {
   private GenerationImage image;
   private GenerationImageFrame frame;
 
-  public Controller(int pixels, int delay, StartSeedStyle style, boolean launchFullScreen, Color liveColor) {
+  public Controller(int delay, StartSeedStyle style, boolean launchFullScreen, Color liveColor) {
     cellsWide = Toolkit.getDefaultToolkit().getScreenSize().width;
     cellsHigh = Toolkit.getDefaultToolkit().getScreenSize().height;
-    if (!launchFullScreen) {
-      cellsWide *= 0.8; // Fill most of the screen
-      cellsHigh *= 0.8;
-    }
-    pixelsPerCell = pixels;
-    imageWidth = cellsWide * pixelsPerCell;
-    imageHeight = cellsHigh * pixelsPerCell;
+    imageWidth = (int) (launchFullScreen ? cellsWide : cellsWide * 0.8);
+    imageHeight = (int) (launchFullScreen ? cellsHigh : cellsHigh * 0.8);
+
     timerDelayMillis = delay;
     this.liveColor = liveColor;
 
     state = new Generation((cellsHigh + 2), (cellsWide + 2), style); // +2 to add border values
-    image = new GenerationImage(state.getCurrentGeneration(), imageWidth, imageHeight, pixelsPerCell, liveColor);
+    image = new GenerationImage(state.getCurrentGeneration(), imageWidth, imageHeight, liveColor);
     frame = new GenerationImageFrame(image, launchFullScreen);
 
     timer = new Timer(timerDelayMillis, new TimerEvent());
@@ -48,7 +44,7 @@ public class Controller {
   private class TimerEvent implements ActionListener {
     public void actionPerformed(ActionEvent e) {
       state.advangeGeneration();
-      image = new GenerationImage(state.getCurrentGeneration(), imageWidth, imageHeight, pixelsPerCell, liveColor);
+      image = new GenerationImage(state.getCurrentGeneration(), imageWidth, imageHeight, liveColor);
       frame.updateFrameImage(image);
     }
   }
