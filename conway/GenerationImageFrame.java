@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 
 public class GenerationImageFrame extends JFrame {
 
+  private static final long serialVersionUID = 1L;
   private JLabel imageLabel;
 
   public GenerationImageFrame(BufferedImage image, boolean launchFullScreen) {
@@ -25,14 +26,14 @@ public class GenerationImageFrame extends JFrame {
       setUndecorated(true);
     } else {
       // Get the frame off the upper edge of the screen if not
-      int w = (int)(Toolkit.getDefaultToolkit().getScreenSize().width * 0.1);
-      int h = (int)(Toolkit.getDefaultToolkit().getScreenSize().height * 0.1);
+      int w = (int) (Toolkit.getDefaultToolkit().getScreenSize().width * 0.1);
+      int h = (int) (Toolkit.getDefaultToolkit().getScreenSize().height * 0.1);
       setLocation(w, h);
     }
 
     try {
       setIconImage(ImageIO.read(getClass().getResource("/resources/icon.png")));
-    } catch (IOException e) {/* Fail quietly */}
+    } catch (IOException e) { /* Fail quietly */ }
 
     imageLabel = new JLabel(new ImageIcon(image));
     imageLabel.addMouseListener(new ImageClick());

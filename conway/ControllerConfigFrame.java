@@ -18,7 +18,8 @@ import javax.swing.JSlider;
 
 public class ControllerConfigFrame extends JFrame {
 
-  private final Color DEFAULT_COLOR = new Color(98,239,131); // Default to a bright green
+  private static final long serialVersionUID = 1L;
+  private final Color DEFAULT_COLOR = new Color(98, 239, 131); // Default to a bright green
   private Color liveColor;
   private StartSeedStyle style;
   private JPanel stylePanel;
@@ -38,14 +39,14 @@ public class ControllerConfigFrame extends JFrame {
   public ControllerConfigFrame() {
     // Setup Config JFrame basic settings
     setTitle("Conway's Game");
-    setLayout(new GridLayout(5,1));
+    setLayout(new GridLayout(5, 1));
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    setLocation(200,200); // Don't want it on the edge, should be safe on most monitors
+    setLocation(200, 200); // Don't want it on the edge, should be safe on most monitors
     liveColor = DEFAULT_COLOR;
 
     try {
       setIconImage(ImageIO.read(getClass().getResource("/resources/icon.png")));
-    } catch (IOException e) {/* Fail quietly */}
+    } catch (IOException e) { /* Fail quietly */ }
 
     // Panel to choose type of starting seed for animation
     stylePanel = new JPanel();
@@ -108,7 +109,8 @@ public class ControllerConfigFrame extends JFrame {
       } else if (styleBoxLineRadioButton.isSelected()) {
         style = StartSeedStyle.BOX_LINE;
       }
-      Controller controller = new Controller(1, speedSlider.getValue(), style, launchFullScreenCheckBox.isSelected(), liveColor);
+      Controller controller = new Controller(1, speedSlider.getValue(), style, launchFullScreenCheckBox.isSelected(),
+          liveColor);
       controller.start();
       dispose();
     }
@@ -120,7 +122,7 @@ public class ControllerConfigFrame extends JFrame {
       // Because the JColorChooser cancel button will null liveColor
       if (liveColor == null) {
         liveColor = DEFAULT_COLOR; // Reset to the default green
-      } else {/* Use the color from the JColorChooser */}
+      } else { /* Use the color from the JColorChooser */ }
     }
   }
 }

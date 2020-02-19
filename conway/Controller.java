@@ -34,7 +34,7 @@ public class Controller {
     timerDelayMillis = delay;
     this.liveColor = liveColor;
 
-    state = new Generation((cellsHigh + 2), (cellsWide + 2), style);	// +2 to add border values
+    state = new Generation((cellsHigh + 2), (cellsWide + 2), style); // +2 to add border values
     image = new GenerationImage(state.getCurrentGeneration(), imageWidth, imageHeight, pixelsPerCell, liveColor);
     frame = new GenerationImageFrame(image, launchFullScreen);
 
