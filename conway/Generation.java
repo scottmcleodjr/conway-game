@@ -22,119 +22,91 @@ public class Generation {
 
   public void advangeGeneration() {
     currentGeneration = nextGeneration;
-    nextGeneration = createNextGeneration(currentGeneration);
+    setNextGenerationPerCurrentGeneration();
   }
 
   public void setFirstGeneration(StartSeedStyle style) {
     switch (style) {
       case RANDOM:
-        currentGeneration = makeRandomSeed(rows, cols, density);
+        setCurrentGenerationToRandomPattern();
         break;
       case HORIZONTAL_LINE:
-        currentGeneration = makeHorizontalLineSeed(rows, cols);
+        setCurrentGenerationToHorizontalLine();
         break;
       case BOX_LINE:
-        currentGeneration = makeBoxLineSeed(rows, cols);
+        setCurrentGenerationToBoxLine();
         break;
     }
-    nextGeneration = createNextGeneration(currentGeneration);
+    setNextGenerationPerCurrentGeneration();
   }
 
-  /*
-   * Private static methods below this comment.
-   */
-
-  private static byte[][] makeRandomSeed(int rows, int cols, int density) {
+  private void setCurrentGenerationToRandomPattern() {
     Random randy = new Random();
-    byte[][] output = new byte[rows][cols];
+    currentGeneration = new byte[rows][cols];
     // This loop truncates to not possibly make a border value 1
     for (int r = 1; r < rows - 1; r++) {
       for (int c = 1; c < cols - 1; c++) {
         if (randy.nextInt(100) < density) {
-          output[r][c] = 1;
+          currentGeneration[r][c] = 1;
         }
       }
     }
-    return output;
   }
 
-  private static byte[][] makeHorizontalLineSeed(int rows, int cols) {
-    byte[][] output = new byte[rows][cols];
-    int mid = rows / 2; // Close enough to an actual center.
+  private void setCurrentGenerationToHorizontalLine() {
+    currentGeneration = new byte[rows][cols];
+    int mid = rows / 2;
     // This loop truncates to not possibly make a border value 1
-    for (int r = 1; r < rows - 1; r++) {
-      for (int c = 1; c < cols - 1; c++) {
-        if (r == mid) {
-          output[r][c] = 1;
-        }
-      }
+    for (int c = 1; c < cols - 1; c++) {
+      currentGeneration[mid][c] = 1;
     }
-    return output;
   }
 
-  private static byte[][] makeBoxLineSeed(int rows, int cols) {
-    byte[][] output = new byte[rows][cols];
-    // Determine where the box lines appear on screen
+  private void setCurrentGenerationToBoxLine() {
+    currentGeneration = new byte[rows][cols];
     int horizontalTop = (rows - 2) / 3; // -2 so it is based on screen size.
     int horizontalBottom = horizontalTop * 2;
-    int verticalLeft = (cols - 2) / 4; // /4 here because screen is wider than tall
+    int verticalLeft = (cols - 2) / 4; // /4 looks a lot better than 3 here
     int verticalRight = verticalLeft * 3;
-    // This loop truncates to not possibly make a border value 1
-    for (int r = 1; r < rows - 1; r++) {
-      for (int c = 1; c < cols - 1; c++) {
-        // Add each line to the image
-        if ((r == horizontalTop) && ((c >= verticalLeft) && (c <= verticalRight))) {
-          output[r][c] = 1;
-        } else if ((r == horizontalBottom) && ((c >= verticalLeft) && (c <= verticalRight))) {
-          output[r][c] = 1;
-        } else if ((c == verticalLeft) && ((r >= horizontalTop) && (r <= horizontalBottom))) {
-          output[r][c] = 1;
-        } else if ((c == verticalRight) && ((r >= horizontalTop) && (r <= horizontalBottom))) {
-          output[r][c] = 1;
-        }
-      }
+
+    for (int r = horizontalTop; r <= horizontalBottom; r++) {
+      currentGeneration[r][verticalLeft] = 1;
+      currentGeneration[r][verticalRight] = 1;
     }
-    return output;
+    for (int c = verticalLeft; c <= verticalRight; c++) {
+      currentGeneration[horizontalTop][c] = 1;
+      currentGeneration[horizontalBottom][c] = 1;
+    }
   }
 
-  private static byte[][] createNextGeneration(byte[][] input) {
-
-    int count;
-    byte[][] output = new byte[input.length][input[1].length];
-
+  private void setNextGenerationPerCurrentGeneration() {
+    nextGeneration = new byte[rows][cols];
     /*
-     * With 1 representing a live cell and 0 for dead: if 0 and adjacent to exactly
-     * 3, then 1 if 1 and adjacent to <= 1, then 0 if 1 and adjacent to >=4, then 0
-     * if 1 and (else), then 1
+     * With 1 representing a live cell and 0 for dead:
+     *   If 0 and adjacent to exactly 3 live, then 1
+     *   If 1 and adjacent to 2 or 3 live, then 1
+     *   If 1 and adjacent to (else), then 0
      */
+    for (int r = 1; r < rows - 1; r++) {
+      for (int c = 1; c < cols - 1; c++) {
+        int count = 0;
+        count += currentGeneration[r - 1][c - 1];
+        count += currentGeneration[r - 1][c];
+        count += currentGeneration[r - 1][c + 1];
+        count += currentGeneration[r][c - 1];
+        count += currentGeneration[r][c + 1];
+        count += currentGeneration[r + 1][c - 1];
+        count += currentGeneration[r + 1][c];
+        count += currentGeneration[r + 1][c + 1];
 
-    for (int r = 1; r < (input.length - 1); r++) {
-      for (int c = 1; c < (input[1].length - 1); c++) {
-        count = 0;
-        count += input[r - 1][c - 1];
-        count += input[r - 1][c];
-        count += input[r - 1][c + 1];
-        count += input[r][c - 1];
-        count += input[r][c + 1];
-        count += input[r + 1][c - 1];
-        count += input[r + 1][c];
-        count += input[r + 1][c + 1];
-
-        if (input[r][c] == 1) {
-          if ((count <= 1) || (count >= 4)) {
-            output[r][c] = 0;
-          } else {
-            output[r][c] = 1;
+        if (currentGeneration[r][c] == 1) {
+          if (count == 2 || count == 3) {
+            nextGeneration[r][c] = 1;
           }
-        } else { // Occurs if input[r][c] == 0
-          if (count == 3) {
-            output[r][c] = 1;
-          } else {
-            output[r][c] = 0;
-          }
+        } else if (count == 3) { // Current cell is dead
+          nextGeneration[r][c] = 1;
         }
       }
     }
-    return output;
   }
 }
