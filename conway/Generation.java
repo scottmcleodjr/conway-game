@@ -13,19 +13,7 @@ public class Generation {
   public Generation(int rows, int cols, StartSeedStyle style) {
     this.rows = rows;
     this.cols = cols;
-    setFirstGeneration(style);
-  }
 
-  public byte[][] getCurrentGeneration() {
-    return currentGeneration;
-  }
-
-  public void advangeGeneration() {
-    currentGeneration = nextGeneration;
-    setNextGenerationPerCurrentGeneration();
-  }
-
-  public void setFirstGeneration(StartSeedStyle style) {
     switch (style) {
       case RANDOM:
         setCurrentGenerationToRandomPattern();
@@ -37,6 +25,15 @@ public class Generation {
         setCurrentGenerationToBoxLine();
         break;
     }
+    setNextGenerationPerCurrentGeneration();
+  }
+
+  public byte[][] getCurrentGeneration() {
+    return currentGeneration;
+  }
+
+  public void advangeGeneration() {
+    currentGeneration = nextGeneration;
     setNextGenerationPerCurrentGeneration();
   }
 
