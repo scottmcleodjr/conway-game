@@ -32,7 +32,7 @@ public class GenerationImageFrame extends JFrame {
     }
 
     try {
-      setIconImage(ImageIO.read(getClass().getResource("/resources/icon.png")));
+      setIconImage(ImageIO.read(getClass().getResource("/icon.png")));
     } catch (IOException e) { /* Fail quietly */ }
 
     imageLabel = new JLabel(new ImageIcon(image));

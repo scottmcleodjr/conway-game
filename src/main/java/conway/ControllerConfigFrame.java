@@ -45,7 +45,7 @@ public class ControllerConfigFrame extends JFrame {
     liveColor = DEFAULT_COLOR;
 
     try {
-      setIconImage(ImageIO.read(getClass().getResource("/resources/icon.png")));
+      setIconImage(ImageIO.read(getClass().getResource("/icon.png")));
     } catch (IOException e) { /* Fail quietly */ }
 
     // Panel to choose type of starting seed for animation

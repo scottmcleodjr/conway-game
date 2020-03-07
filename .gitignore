@@ -1,2 +1,8 @@
 *.org
-.vscode/
+
+.classpath
+.project
+.settings
+.vscode
+
+target
