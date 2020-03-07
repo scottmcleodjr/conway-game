@@ -1,14 +1,14 @@
 ## (Another Version of) Conway's Game of Life
 
+![Screenshot](screenshot.jpg)
+
 Conway's Game of Life is a no-player game (effectively an animation) that proceeds from a starting layout or 'seed' according to pre-determined rules.
 
 More information about the game can be found [here](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life).
 
-#### Setup
+### Setup
 
-The program only requires a recent(ish) version of Java and will be able to run on any platform.
-
-You'll need to...
+The program only requires Maven and a recent(ish) version of Java. You'll need to...
 
 1) Clone the repo: `git clone https://gitlab.com/s.mcleodjr/conway-game.git`
 2) Open the repo: `cd conway-game`
@@ -28,4 +28,5 @@ Potential future options for development include:
 * Control of cell size (> 1px X 1px).
 
 ### Credits
+
 Thanks and acknowledgments to jpetrich for review and testing.
