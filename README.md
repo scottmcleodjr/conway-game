@@ -6,9 +6,14 @@ More information about the game can be found [here](https://en.wikipedia.org/wik
 
 #### Setup
 
-The program only requires a recent(ish) version of Java, and will be able to run on any platform.  You can download the code with the download button above, or use `git clone https://gitlab.com/s.mcleodjr/conway-game.git`
+The program only requires a recent(ish) version of Java and will be able to run on any platform.
 
-You can then open the downloaded directory with `cd conway-game`, compile the program with `javac conway/Main.java`, and create a jar with `jar -cvfm Conway.jar Manifest.mf *`.  You can run the program with `java -jar Conway.jar`.
+You'll need to...
+
+1) Clone the repo: `git clone https://gitlab.com/s.mcleodjr/conway-game.git`
+2) Open the repo: `cd conway-game`
+3) Compile and create a jar file: `mvn package`
+4) Run the program: `java -jar target/conway-1.0-SNAPSHOT.jar`
 
 ### Configuration Options
 
