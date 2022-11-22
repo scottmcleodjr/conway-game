@@ -40,9 +40,8 @@ public class Generation {
   private void setCurrentGenerationToRandomPattern() {
     Random randy = new Random();
     currentGeneration = new byte[rows][cols];
-    // This loop truncates to not possibly make a border value 1
-    for (int r = 1; r < rows - 1; r++) {
-      for (int c = 1; c < cols - 1; c++) {
+    for (int r = 0; r < rows; r++) {
+      for (int c = 0; c < cols; c++) {
         if (randy.nextInt(100) < density) {
           currentGeneration[r][c] = 1;
         }
@@ -53,17 +52,16 @@ public class Generation {
   private void setCurrentGenerationToHorizontalLine() {
     currentGeneration = new byte[rows][cols];
     int mid = rows / 2;
-    // This loop truncates to not possibly make a border value 1
-    for (int c = 1; c < cols - 1; c++) {
+    for (int c = 0; c < cols; c++) {
       currentGeneration[mid][c] = 1;
     }
   }
 
   private void setCurrentGenerationToBoxLine() {
     currentGeneration = new byte[rows][cols];
-    int horizontalTop = (rows - 2) / 3; // -2 so it is based on screen size.
+    int horizontalTop = rows / 3;
     int horizontalBottom = horizontalTop * 2;
-    int verticalLeft = (cols - 2) / 4; // /4 looks a lot better than 3 here
+    int verticalLeft = cols / 4; // /4 looks a lot better than 3 here
     int verticalRight = verticalLeft * 3;
 
     for (int r = horizontalTop; r <= horizontalBottom; r++) {
@@ -84,17 +82,21 @@ public class Generation {
      *   If 1 and adjacent to 2 or 3 live, then 1
      *   If 1 and adjacent to (else), then 0
      */
-    for (int r = 1; r < rows - 1; r++) {
-      for (int c = 1; c < cols - 1; c++) {
+    for (int r = 0; r < rows; r++) {
+      for (int c = 0; c < cols; c++) {
         int count = 0;
-        count += currentGeneration[r - 1][c - 1];
-        count += currentGeneration[r - 1][c];
-        count += currentGeneration[r - 1][c + 1];
-        count += currentGeneration[r][c - 1];
-        count += currentGeneration[r][c + 1];
-        count += currentGeneration[r + 1][c - 1];
-        count += currentGeneration[r + 1][c];
-        count += currentGeneration[r + 1][c + 1];
+        int prev_row = r == 0 ? rows - 1 : r - 1;
+        int next_row = r == rows - 1 ? 0 : r + 1;
+        int prev_col = c == 0 ? cols - 1 : c - 1;
+        int next_col = c == cols - 1 ? 0 : c + 1;
+        count += currentGeneration[prev_row][prev_col];
+        count += currentGeneration[prev_row][c];
+        count += currentGeneration[prev_row][next_col];
+        count += currentGeneration[r][prev_col];
+        count += currentGeneration[r][next_col];
+        count += currentGeneration[next_row][prev_col];
+        count += currentGeneration[next_row][c];
+        count += currentGeneration[next_row][next_col];
 
         if (currentGeneration[r][c] == 1) {
           if (count == 2 || count == 3) {

@@ -26,7 +26,7 @@ public class Controller {
     }
     this.liveColor = liveColor;
 
-    state = new Generation((cellsHigh + 2), (cellsWide + 2), style); // +2 to add border values
+    state = new Generation((cellsHigh), (cellsWide), style);
     image = new GenerationImage(state.getCurrentGeneration(), cellsWide, cellsHigh, liveColor);
     frame = new GenerationImageFrame(image, launchFullScreen);
 
