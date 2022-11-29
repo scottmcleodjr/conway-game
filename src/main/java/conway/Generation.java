@@ -40,7 +40,7 @@ public class Generation {
     return currentGeneration[r][c];
   }
 
-  public void advangeGeneration() {
+  public void advanceGeneration() {
     currentGeneration = nextGeneration;
     setNextGenerationPerCurrentGeneration();
   }

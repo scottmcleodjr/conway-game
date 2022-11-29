@@ -40,7 +40,7 @@ public class Controller {
   private class TimerEvent implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
-      state.advangeGeneration();
+      state.advanceGeneration();
       image = new GenerationImage(state, cellsWide, cellsHigh, liveColor);
       frame.updateFrameImage(image);
     }
