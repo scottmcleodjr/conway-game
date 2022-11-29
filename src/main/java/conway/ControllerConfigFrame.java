@@ -67,7 +67,7 @@ public class ControllerConfigFrame extends JFrame {
     // Panel to control full screen option
     launchFullScreenPanel = new JPanel();
     launchFullScreenPanel.setBorder(BorderFactory.createTitledBorder("Size"));
-    launchFullScreenCheckBox = new JCheckBox("Launch Full Screen", true);
+    launchFullScreenCheckBox = new JCheckBox("Launch Full Screen", false);
     launchFullScreenPanel.add(launchFullScreenCheckBox);
 
     // Panel to control speed of animation
