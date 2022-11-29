@@ -7,13 +7,12 @@ import java.awt.GridLayout;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
-import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JColorChooser;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JSlider;
 
 public class ControllerConfigFrame extends JFrame {
@@ -21,9 +20,7 @@ public class ControllerConfigFrame extends JFrame {
   private static final long serialVersionUID = 1L;
   private final Color DEFAULT_COLOR = new Color(98, 239, 131); // Default to a bright green
   private Color liveColor;
-  private JRadioButton styleRandomRadioButton;
-  private JRadioButton styleHorizontalLineRadioButton;
-  private JRadioButton styleBoxLineRadioButton;
+  private JComboBox<StartSeedStyle> styleComboBox;
   private JCheckBox launchFullScreenCheckBox;
   private JSlider speedSlider;
 
@@ -42,18 +39,10 @@ public class ControllerConfigFrame extends JFrame {
     // Panel to choose type of starting seed for animation
     JPanel stylePanel = new JPanel();
     stylePanel.setBorder(BorderFactory.createTitledBorder("Initial Layout"));
-    styleRandomRadioButton = new JRadioButton("Random Layout", true);
-    styleHorizontalLineRadioButton = new JRadioButton("Horizontal Line");
-    styleBoxLineRadioButton = new JRadioButton("Box");
-
-    ButtonGroup styleButtons = new ButtonGroup();
-    styleButtons.add(styleRandomRadioButton);
-    styleButtons.add(styleHorizontalLineRadioButton);
-    styleButtons.add(styleBoxLineRadioButton);
-
-    stylePanel.add(styleRandomRadioButton);
-    stylePanel.add(styleHorizontalLineRadioButton);
-    stylePanel.add(styleBoxLineRadioButton);
+    StartSeedStyle[] styles = StartSeedStyle.values();
+    styleComboBox = new JComboBox<StartSeedStyle>(styles);
+    styleComboBox.setSelectedIndex(0);
+    stylePanel.add(styleComboBox);
 
     // Panel to control full screen option
     JPanel launchFullScreenPanel = new JPanel();
@@ -92,19 +81,12 @@ public class ControllerConfigFrame extends JFrame {
   private class ContinueListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
       setVisible(false);
-      // Style setting
-      StartSeedStyle style;
-      if (styleRandomRadioButton.isSelected()) {
-        style = StartSeedStyle.RANDOM;
-      } else if (styleHorizontalLineRadioButton.isSelected()) {
-        style = StartSeedStyle.HORIZONTAL_LINE;
-      } else if (styleBoxLineRadioButton.isSelected()) {
-        style = StartSeedStyle.BOX_LINE;
-      } else {
-        throw new IllegalStateException("Unable to find selected style button");
-      }
-      Controller controller = new Controller(speedSlider.getValue(), style, launchFullScreenCheckBox.isSelected(),
-          liveColor);
+      Controller controller = new Controller(
+        speedSlider.getValue(),
+        (StartSeedStyle)styleComboBox.getSelectedItem(),
+        launchFullScreenCheckBox.isSelected(),
+        liveColor
+      );
       controller.start();
       dispose();
     }

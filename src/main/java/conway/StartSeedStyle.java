@@ -1,5 +1,19 @@
 package conway;
 
 public enum StartSeedStyle {
-  RANDOM, HORIZONTAL_LINE, BOX_LINE;
+  RANDOM {
+    public String toString() {
+      return "Random";
+    }
+  },
+  HORIZONTAL_LINE {
+    public String toString() {
+      return "Horizontal Line";
+    }
+  },
+  BOX_LINE {
+    public String toString() {
+      return "Box";
+    }
+  };
 }
