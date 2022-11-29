@@ -38,6 +38,7 @@ public class Controller {
   }
 
   private class TimerEvent implements ActionListener {
+    @Override
     public void actionPerformed(ActionEvent e) {
       state.advangeGeneration();
       image = new GenerationImage(state.getCurrentGeneration(), cellsWide, cellsHigh, liveColor);

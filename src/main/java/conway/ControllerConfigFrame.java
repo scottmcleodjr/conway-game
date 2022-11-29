@@ -79,6 +79,7 @@ public class ControllerConfigFrame extends JFrame {
   }
 
   private class ContinueListener implements ActionListener {
+    @Override
     public void actionPerformed(ActionEvent e) {
       setVisible(false);
       Controller controller = new Controller(
@@ -93,6 +94,7 @@ public class ControllerConfigFrame extends JFrame {
   }
 
   private class ColorListener implements ActionListener {
+    @Override
     public void actionPerformed(ActionEvent e) {
       liveColor = JColorChooser.showDialog(null, "Select a color for live cells", Color.WHITE);
       // Because the JColorChooser cancel button will null liveColor
