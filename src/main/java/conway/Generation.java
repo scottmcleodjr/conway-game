@@ -28,8 +28,16 @@ public class Generation {
     setNextGenerationPerCurrentGeneration();
   }
 
-  public byte[][] getCurrentGeneration() {
-    return currentGeneration;
+  public int getRows() {
+    return rows;
+  }
+
+  public int getCols() {
+    return cols;
+  }
+
+  public byte getValueAt(int r, int c) {
+    return currentGeneration[r][c];
   }
 
   public void advangeGeneration() {

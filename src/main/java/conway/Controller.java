@@ -27,7 +27,7 @@ public class Controller {
     this.liveColor = liveColor;
 
     state = new Generation((cellsHigh), (cellsWide), style);
-    image = new GenerationImage(state.getCurrentGeneration(), cellsWide, cellsHigh, liveColor);
+    image = new GenerationImage(state, cellsWide, cellsHigh, liveColor);
     frame = new GenerationImageFrame(image, launchFullScreen);
 
     timer = new Timer(delay, new TimerEvent());
@@ -41,7 +41,7 @@ public class Controller {
     @Override
     public void actionPerformed(ActionEvent e) {
       state.advangeGeneration();
-      image = new GenerationImage(state.getCurrentGeneration(), cellsWide, cellsHigh, liveColor);
+      image = new GenerationImage(state, cellsWide, cellsHigh, liveColor);
       frame.updateFrameImage(image);
     }
   }
