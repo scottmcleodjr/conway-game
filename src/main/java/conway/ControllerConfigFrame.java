@@ -21,20 +21,11 @@ public class ControllerConfigFrame extends JFrame {
   private static final long serialVersionUID = 1L;
   private final Color DEFAULT_COLOR = new Color(98, 239, 131); // Default to a bright green
   private Color liveColor;
-  private StartSeedStyle style;
-  private JPanel stylePanel;
-  private JPanel speedPanel;
-  private JPanel colorPanel;
-  private JPanel continuePanel;
-  private JPanel launchFullScreenPanel;
   private JRadioButton styleRandomRadioButton;
   private JRadioButton styleHorizontalLineRadioButton;
   private JRadioButton styleBoxLineRadioButton;
-  private ButtonGroup styleButtons;
   private JCheckBox launchFullScreenCheckBox;
   private JSlider speedSlider;
-  private JButton colorButton;
-  private JButton continueButton;
 
   public ControllerConfigFrame() {
     // Setup Config JFrame basic settings
@@ -49,13 +40,13 @@ public class ControllerConfigFrame extends JFrame {
     } catch (IOException e) { /* Fail quietly */ }
 
     // Panel to choose type of starting seed for animation
-    stylePanel = new JPanel();
+    JPanel stylePanel = new JPanel();
     stylePanel.setBorder(BorderFactory.createTitledBorder("Initial Layout"));
     styleRandomRadioButton = new JRadioButton("Random Layout", true);
     styleHorizontalLineRadioButton = new JRadioButton("Horizontal Line");
     styleBoxLineRadioButton = new JRadioButton("Box");
 
-    styleButtons = new ButtonGroup();
+    ButtonGroup styleButtons = new ButtonGroup();
     styleButtons.add(styleRandomRadioButton);
     styleButtons.add(styleHorizontalLineRadioButton);
     styleButtons.add(styleBoxLineRadioButton);
@@ -65,27 +56,27 @@ public class ControllerConfigFrame extends JFrame {
     stylePanel.add(styleBoxLineRadioButton);
 
     // Panel to control full screen option
-    launchFullScreenPanel = new JPanel();
+    JPanel launchFullScreenPanel = new JPanel();
     launchFullScreenPanel.setBorder(BorderFactory.createTitledBorder("Size"));
     launchFullScreenCheckBox = new JCheckBox("Launch Full Screen", false);
     launchFullScreenPanel.add(launchFullScreenCheckBox);
 
     // Panel to control speed of animation
-    speedPanel = new JPanel();
+    JPanel speedPanel = new JPanel();
     speedPanel.setBorder(BorderFactory.createTitledBorder("Generation Length"));
     speedSlider = new JSlider(JSlider.HORIZONTAL, 25, 925, 100);
     speedPanel.add(speedSlider);
 
     // Panel to control color of live cells
-    colorPanel = new JPanel();
+    JPanel colorPanel = new JPanel();
     colorPanel.setBorder(BorderFactory.createTitledBorder("Live Cell Color"));
-    colorButton = new JButton("Custom");
+    JButton colorButton = new JButton("Custom");
     colorButton.addActionListener(new ColorListener());
     colorPanel.add(colorButton);
 
     // Panel to launch Controller
-    continuePanel = new JPanel();
-    continueButton = new JButton("Launch");
+    JPanel continuePanel = new JPanel();
+    JButton continueButton = new JButton("Launch");
     continueButton.addActionListener(new ContinueListener());
     continuePanel.add(continueButton);
 
@@ -102,12 +93,15 @@ public class ControllerConfigFrame extends JFrame {
     public void actionPerformed(ActionEvent e) {
       setVisible(false);
       // Style setting
+      StartSeedStyle style;
       if (styleRandomRadioButton.isSelected()) {
         style = StartSeedStyle.RANDOM;
       } else if (styleHorizontalLineRadioButton.isSelected()) {
         style = StartSeedStyle.HORIZONTAL_LINE;
       } else if (styleBoxLineRadioButton.isSelected()) {
         style = StartSeedStyle.BOX_LINE;
+      } else {
+        throw new IllegalStateException("Unable to find selected style button");
       }
       Controller controller = new Controller(speedSlider.getValue(), style, launchFullScreenCheckBox.isSelected(),
           liveColor);
