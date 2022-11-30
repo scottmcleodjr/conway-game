@@ -8,7 +8,6 @@ public class Generation {
   private byte[][] nextState;
   private int cellsHigh;
   private int cellsWide;
-  private int density = 12; // Percentage of cells live in random start
 
   public Generation(Config cfg) {
     this.cellsHigh = cfg.getCellsHigh();
@@ -42,7 +41,7 @@ public class Generation {
     currentState = new byte[cellsHigh][cellsWide];
     for (int r = 0; r < cellsHigh; r++) {
       for (int c = 0; c < cellsWide; c++) {
-        if (randy.nextInt(100) < density) {
+        if (randy.nextInt(100) < Config.RANDOM_SEED_INIT_DENSITY * 100) {
           currentState[r][c] = 1;
         }
       }
