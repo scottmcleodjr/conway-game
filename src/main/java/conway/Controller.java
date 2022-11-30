@@ -8,7 +8,6 @@ public class Controller {
 
   private Config cfg;
   private Generation state;
-  private GenerationImage image;
   private GenerationImageFrame frame;
   private Timer timer;
 
@@ -16,8 +15,7 @@ public class Controller {
     this.cfg = cfg;
 
     state = new Generation(cfg);
-    image = new GenerationImage(cfg, state);
-    frame = new GenerationImageFrame(image, cfg.isFullScreen());
+    frame = new GenerationImageFrame(new GenerationImage(cfg, state), cfg.isFullScreen());
 
     timer = new Timer(cfg.getGenLengthMillis(), new TimerEvent());
   }
@@ -30,8 +28,7 @@ public class Controller {
     @Override
     public void actionPerformed(ActionEvent e) {
       state.advanceGeneration();
-      image = new GenerationImage(cfg, state);
-      frame.updateFrameImage(image);
+      frame.updateFrameImage(new GenerationImage(cfg, state));
     }
   }
 }
