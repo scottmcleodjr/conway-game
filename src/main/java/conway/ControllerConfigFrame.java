@@ -17,7 +17,6 @@ import javax.swing.JSlider;
 
 public class ControllerConfigFrame extends JFrame {
 
-  private static final long serialVersionUID = 1L;
   private final Color DEFAULT_COLOR = new Color(98, 239, 131); // Default to a bright green
   private Color liveColor;
   private JComboBox<StartSeedStyle> styleComboBox;
