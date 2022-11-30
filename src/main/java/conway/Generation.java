@@ -20,7 +20,7 @@ public class Generation {
       case HORIZONTAL_LINE:
         setCurrentStateToHorizontalLine();
         break;
-      case BOX_LINE:
+      case BOX:
         setCurrentStateToBox();
         break;
     }

@@ -13,7 +13,7 @@ public enum StartSeedStyle {
       return "Horizontal Line";
     }
   },
-  BOX_LINE {
+  BOX {
     @Override
     public String toString() {
       return "Box";
