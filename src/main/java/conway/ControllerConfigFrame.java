@@ -53,7 +53,12 @@ public class ControllerConfigFrame extends JFrame {
     // Panel to control speed of animation
     JPanel speedPanel = new JPanel();
     speedPanel.setBorder(BorderFactory.createTitledBorder("Generation Length"));
-    speedSlider = new JSlider(JSlider.HORIZONTAL, 25, 925, 100);
+    speedSlider = new JSlider(
+      JSlider.HORIZONTAL,
+      Config.MIN_GEN_LENGTH_MILLIS,
+      Config.MAX_GEN_LENGTH_MILLIS,
+      Config.DEFAULT_GEN_LENGTH_MILLIS
+    );
     speedPanel.add(speedSlider);
 
     // Panel to control color of live cells
@@ -82,12 +87,13 @@ public class ControllerConfigFrame extends JFrame {
     @Override
     public void actionPerformed(ActionEvent e) {
       setVisible(false);
-      Controller controller = new Controller(
-        speedSlider.getValue(),
-        (StartSeedStyle)styleComboBox.getSelectedItem(),
+      Config cfg = new Config(
+        liveColor,
         launchFullScreenCheckBox.isSelected(),
-        liveColor
+        speedSlider.getValue(),
+        (StartSeedStyle)styleComboBox.getSelectedItem()
       );
+      Controller controller = new Controller(cfg);
       controller.start();
       dispose();
     }
