@@ -4,106 +4,106 @@ import java.util.Random;
 
 public class Generation {
 
-  private byte[][] currentGeneration;
-  private byte[][] nextGeneration;
-  private int rows;
-  private int cols;
+  private byte[][] currentState;
+  private byte[][] nextState;
+  private int cellsHigh;
+  private int cellsWide;
   private int density = 12; // Percentage of cells live in random start
 
   public Generation(Config cfg) {
-    this.rows = cfg.getCellsHigh();
-    this.cols = cfg.getCellsWide();
+    this.cellsHigh = cfg.getCellsHigh();
+    this.cellsWide = cfg.getCellsWide();
 
     switch (cfg.getStyle()) {
       case RANDOM:
-        setCurrentGenerationToRandomPattern();
+        setCurrentStateToRandomPattern();
         break;
       case HORIZONTAL_LINE:
-        setCurrentGenerationToHorizontalLine();
+        setCurrentStateToHorizontalLine();
         break;
       case BOX_LINE:
-        setCurrentGenerationToBoxLine();
+        setCurrentStateToBox();
         break;
     }
-    setNextGenerationPerCurrentGeneration();
+    updateNextState();
   }
 
   public byte getValueAt(int r, int c) {
-    return currentGeneration[r][c];
+    return currentState[r][c];
   }
 
   public void advance() {
-    currentGeneration = nextGeneration;
-    setNextGenerationPerCurrentGeneration();
+    currentState = nextState;
+    updateNextState();
   }
 
-  private void setCurrentGenerationToRandomPattern() {
+  private void setCurrentStateToRandomPattern() {
     Random randy = new Random();
-    currentGeneration = new byte[rows][cols];
-    for (int r = 0; r < rows; r++) {
-      for (int c = 0; c < cols; c++) {
+    currentState = new byte[cellsHigh][cellsWide];
+    for (int r = 0; r < cellsHigh; r++) {
+      for (int c = 0; c < cellsWide; c++) {
         if (randy.nextInt(100) < density) {
-          currentGeneration[r][c] = 1;
+          currentState[r][c] = 1;
         }
       }
     }
   }
 
-  private void setCurrentGenerationToHorizontalLine() {
-    currentGeneration = new byte[rows][cols];
-    int mid = rows / 2;
-    for (int c = 0; c < cols; c++) {
-      currentGeneration[mid][c] = 1;
+  private void setCurrentStateToHorizontalLine() {
+    currentState = new byte[cellsHigh][cellsWide];
+    int mid = cellsHigh / 2;
+    for (int c = 0; c < cellsWide; c++) {
+      currentState[mid][c] = 1;
     }
   }
 
-  private void setCurrentGenerationToBoxLine() {
-    currentGeneration = new byte[rows][cols];
-    int horizontalTop = rows / 3;
+  private void setCurrentStateToBox() {
+    currentState = new byte[cellsHigh][cellsWide];
+    int horizontalTop = cellsHigh / 3;
     int horizontalBottom = horizontalTop * 2;
-    int verticalLeft = cols / 4; // /4 looks a lot better than 3 here
+    int verticalLeft = cellsWide / 4; // /4 looks a lot better than 3 here
     int verticalRight = verticalLeft * 3;
 
     for (int r = horizontalTop; r <= horizontalBottom; r++) {
-      currentGeneration[r][verticalLeft] = 1;
-      currentGeneration[r][verticalRight] = 1;
+      currentState[r][verticalLeft] = 1;
+      currentState[r][verticalRight] = 1;
     }
     for (int c = verticalLeft; c <= verticalRight; c++) {
-      currentGeneration[horizontalTop][c] = 1;
-      currentGeneration[horizontalBottom][c] = 1;
+      currentState[horizontalTop][c] = 1;
+      currentState[horizontalBottom][c] = 1;
     }
   }
 
-  private void setNextGenerationPerCurrentGeneration() {
-    nextGeneration = new byte[rows][cols];
+  private void updateNextState() {
+    nextState = new byte[cellsHigh][cellsWide];
     /*
      * With 1 representing a live cell and 0 for dead:
      *   If 0 and adjacent to exactly 3 live, then 1
      *   If 1 and adjacent to 2 or 3 live, then 1
      *   If 1 and adjacent to (else), then 0
      */
-    for (int r = 0; r < rows; r++) {
-      for (int c = 0; c < cols; c++) {
+    for (int r = 0; r < cellsHigh; r++) {
+      for (int c = 0; c < cellsWide; c++) {
         int count = 0;
-        int prev_row = r == 0 ? rows - 1 : r - 1;
-        int next_row = r == rows - 1 ? 0 : r + 1;
-        int prev_col = c == 0 ? cols - 1 : c - 1;
-        int next_col = c == cols - 1 ? 0 : c + 1;
-        count += currentGeneration[prev_row][prev_col];
-        count += currentGeneration[prev_row][c];
-        count += currentGeneration[prev_row][next_col];
-        count += currentGeneration[r][prev_col];
-        count += currentGeneration[r][next_col];
-        count += currentGeneration[next_row][prev_col];
-        count += currentGeneration[next_row][c];
-        count += currentGeneration[next_row][next_col];
+        int prev_row = r == 0 ? cellsHigh - 1 : r - 1;
+        int next_row = r == cellsHigh - 1 ? 0 : r + 1;
+        int prev_col = c == 0 ? cellsWide - 1 : c - 1;
+        int next_col = c == cellsWide - 1 ? 0 : c + 1;
+        count += currentState[prev_row][prev_col];
+        count += currentState[prev_row][c];
+        count += currentState[prev_row][next_col];
+        count += currentState[r][prev_col];
+        count += currentState[r][next_col];
+        count += currentState[next_row][prev_col];
+        count += currentState[next_row][c];
+        count += currentState[next_row][next_col];
 
-        if (currentGeneration[r][c] == 1) {
+        if (currentState[r][c] == 1) {
           if (count == 2 || count == 3) {
-            nextGeneration[r][c] = 1;
+            nextState[r][c] = 1;
           }
         } else if (count == 3) { // Current cell is dead
-          nextGeneration[r][c] = 1;
+          nextState[r][c] = 1;
         }
       }
     }
