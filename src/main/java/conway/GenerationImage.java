@@ -1,18 +1,17 @@
 package conway;
 
-import java.awt.Color;
 import java.awt.image.BufferedImage;
 
 public class GenerationImage extends BufferedImage {
 
-  public GenerationImage(Generation state, int xPixels, int yPixels, Color liveColor) {
-    // Create a buffered Image and then make it match array
-    super(xPixels, yPixels, BufferedImage.TYPE_INT_RGB);
+  public GenerationImage(Config cfg, Generation state) {
+    super(cfg.getCellsWide(), cfg.getCellsHigh(), BufferedImage.TYPE_INT_RGB);
 
-    for (int r = 0; r < state.getRows(); r++) {
-      for (int c = 0; c < state.getCols(); c++) {
-        if (state.getValueAt(r, c) == 1) {
-          setRGB(c, r, liveColor.getRGB());
+    int rgbColor = cfg.getLiveColor().getRGB();
+    for (int y = 0; y < cfg.getCellsHigh(); y++) {
+      for (int x = 0; x < cfg.getCellsWide(); x++) {
+        if (state.getValueAt(y, x) == 1) {
+          setRGB(x, y, rgbColor);
         }
       }
     }

@@ -16,7 +16,7 @@ public class Controller {
     this.cfg = cfg;
 
     state = new Generation(cfg.getCellsHigh(), cfg.getCellsWide(), cfg.getStyle());
-    image = new GenerationImage(state, cfg.getCellsWide(), cfg.getCellsHigh(), cfg.getLiveColor());
+    image = new GenerationImage(cfg, state);
     frame = new GenerationImageFrame(image, cfg.isFullScreen());
 
     timer = new Timer(cfg.getGenLengthMillis(), new TimerEvent());
@@ -30,7 +30,7 @@ public class Controller {
     @Override
     public void actionPerformed(ActionEvent e) {
       state.advanceGeneration();
-      image = new GenerationImage(state, cfg.getCellsWide(), cfg.getCellsHigh(), cfg.getLiveColor());
+      image = new GenerationImage(cfg, state);
       frame.updateFrameImage(image);
     }
   }
