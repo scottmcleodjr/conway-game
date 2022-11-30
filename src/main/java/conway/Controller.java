@@ -15,7 +15,7 @@ public class Controller {
   public Controller(Config cfg) {
     this.cfg = cfg;
 
-    state = new Generation(cfg.getCellsHigh(), cfg.getCellsWide(), cfg.getStyle());
+    state = new Generation(cfg);
     image = new GenerationImage(cfg, state);
     frame = new GenerationImageFrame(image, cfg.isFullScreen());
 

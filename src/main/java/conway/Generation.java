@@ -10,11 +10,11 @@ public class Generation {
   private int cols;
   private int density = 12; // Percentage of cells live in random start
 
-  public Generation(int rows, int cols, StartSeedStyle style) {
-    this.rows = rows;
-    this.cols = cols;
+  public Generation(Config cfg) {
+    this.rows = cfg.getCellsHigh();
+    this.cols = cfg.getCellsWide();
 
-    switch (style) {
+    switch (cfg.getStyle()) {
       case RANDOM:
         setCurrentGenerationToRandomPattern();
         break;
@@ -26,14 +26,6 @@ public class Generation {
         break;
     }
     setNextGenerationPerCurrentGeneration();
-  }
-
-  public int getRows() {
-    return rows;
-  }
-
-  public int getCols() {
-    return cols;
   }
 
   public byte getValueAt(int r, int c) {
