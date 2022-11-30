@@ -32,7 +32,7 @@ public class Generation {
     return currentGeneration[r][c];
   }
 
-  public void advanceGeneration() {
+  public void advance() {
     currentGeneration = nextGeneration;
     setNextGenerationPerCurrentGeneration();
   }
