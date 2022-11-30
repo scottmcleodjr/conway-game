@@ -7,16 +7,16 @@ import javax.swing.Timer;
 public class Controller {
 
   private Config cfg;
-  private Generation state;
+  private Generation gen;
   private GenerationImageFrame frame;
   private Timer timer;
 
   public Controller(Config cfg) {
     this.cfg = cfg;
 
-    state = new Generation(cfg);
-    frame = new GenerationImageFrame(new GenerationImage(cfg, state), cfg.isFullScreen());
-    state.advanceGeneration();
+    gen = new Generation(cfg);
+    frame = new GenerationImageFrame(new GenerationImage(cfg, gen), cfg.isFullScreen());
+    gen.advanceGeneration();
 
     timer = new Timer(cfg.getGenLengthMillis(), new TimerEvent());
   }
@@ -28,8 +28,8 @@ public class Controller {
   private class TimerEvent implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
-      frame.updateFrameImage(new GenerationImage(cfg, state));
-      state.advanceGeneration();
+      frame.updateFrameImage(new GenerationImage(cfg, gen));
+      gen.advanceGeneration();
     }
   }
 }
