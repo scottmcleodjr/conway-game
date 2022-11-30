@@ -16,6 +16,7 @@ public class Controller {
 
     state = new Generation(cfg);
     frame = new GenerationImageFrame(new GenerationImage(cfg, state), cfg.isFullScreen());
+    state.advanceGeneration();
 
     timer = new Timer(cfg.getGenLengthMillis(), new TimerEvent());
   }
@@ -27,8 +28,8 @@ public class Controller {
   private class TimerEvent implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
-      state.advanceGeneration();
       frame.updateFrameImage(new GenerationImage(cfg, state));
+      state.advanceGeneration();
     }
   }
 }
