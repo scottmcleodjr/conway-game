@@ -5,6 +5,7 @@ import java.awt.Toolkit;
 
 public class Config {
 
+  public static final Color DEFAULT_LIVE_COLOR = new Color(98, 239, 131); // Nice green color
   public static final int MIN_GEN_LENGTH_MILLIS = 50;
   public static final int MAX_GEN_LENGTH_MILLIS = 1000;
   public static final int DEFAULT_GEN_LENGTH_MILLIS = 150;
