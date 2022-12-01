@@ -22,6 +22,7 @@ public class Controller {
   }
 
   public void start() {
+    frame.show();
     timer.start();
   }
 
