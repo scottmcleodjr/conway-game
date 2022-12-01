@@ -8,7 +8,7 @@ public class Config {
   public static final Color DEFAULT_LIVE_COLOR = new Color(98, 239, 131); // Nice green color
   public static final int MIN_GEN_LENGTH_MILLIS = 50;
   public static final int MAX_GEN_LENGTH_MILLIS = 1000;
-  public static final int DEFAULT_GEN_LENGTH_MILLIS = 150;
+  public static final int DEFAULT_GEN_LENGTH_MILLIS = 100;
   public static final float RANDOM_SEED_INIT_DENSITY = 0.12f;
   private Color liveColor;
   private boolean fullScreen;
