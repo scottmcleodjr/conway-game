@@ -5,7 +5,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.awt.Toolkit;
-import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -32,7 +31,9 @@ public class GenerationImageFrame extends JFrame {
 
     try {
       setIconImage(ImageIO.read(getClass().getResource("/icon.png")));
-    } catch (IOException e) { /* Fail quietly */ }
+    } catch (Exception e) {
+      System.out.println("[WARNING] Unable to load icon image: " + e.getMessage());
+    }
 
     imageLabel = new JLabel(new ImageIcon(image));
     imageLabel.addMouseListener(new ImageClick());

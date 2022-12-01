@@ -3,7 +3,6 @@ package conway;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.awt.GridLayout;
 
 import javax.imageio.ImageIO;
@@ -36,7 +35,9 @@ public class ConfigDialog {
 
     try {
       dialog.setIconImage(ImageIO.read(getClass().getResource("/icon.png")));
-    } catch (IOException e) { /* Fail quietly */ }
+    } catch (Exception e) {
+      System.out.println("[WARNING] Unable to load icon image: " + e.getMessage());
+    }
 
     Border emptyBorder = BorderFactory.createEmptyBorder();
 
