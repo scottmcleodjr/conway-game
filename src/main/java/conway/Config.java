@@ -11,21 +11,37 @@ public class Config {
   public static final int DEFAULT_GEN_LENGTH_MILLIS = 100;
   public static final float RANDOM_SEED_INIT_DENSITY = 0.12f;
   private Color liveColor;
-  private boolean fullScreen;
+  private GameSize size;
   private int cellsWide;
   private int cellsHigh;
   private int genLengthMillis;
   private StartSeedStyle style;
 
-  public Config(Color liveColor, boolean fullScreen, int genLengthMillis, StartSeedStyle style) {
+  public Config(Color liveColor, GameSize size, int genLengthMillis, StartSeedStyle style) {
     this.liveColor = liveColor;
 
-    this.fullScreen = fullScreen;
+    this.size = size;
     int screenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
     int screenHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
     // Fill most of the screen if not full screen
-    cellsWide = fullScreen ? screenWidth : (int) (screenWidth * 0.8);
-    cellsHigh = fullScreen ? screenHeight : (int) (screenHeight * 0.8);
+    switch (this.size) {
+      case FULL_SCREEN:
+        cellsWide = screenWidth;
+        cellsHigh = screenHeight;
+        break;
+      case LARGE:
+        cellsWide = (int) (screenWidth * 0.8);
+        cellsHigh = (int) (screenHeight * 0.8);
+        break;
+      case MEDIUM:
+        cellsWide = (int) (screenWidth * 0.6);
+        cellsHigh = (int) (screenHeight * 0.6);
+        break;
+      case SMALL:
+        cellsWide = (int) (screenWidth * 0.4);
+        cellsHigh = (int) (screenHeight * 0.4);
+        break;
+    }
 
     if (!genLengthArgumentInRange(genLengthMillis)) {
       throw new IllegalArgumentException(
@@ -43,7 +59,7 @@ public class Config {
   }
 
   public boolean isFullScreen() {
-    return fullScreen;
+    return size == GameSize.FULL_SCREEN;
   }
 
   public int getCellsWide() {

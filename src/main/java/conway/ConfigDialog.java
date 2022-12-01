@@ -7,7 +7,6 @@ import java.awt.GridLayout;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -21,7 +20,7 @@ public class ConfigDialog {
   private Config cfg;
   private Color liveColor;
   private JComboBox<StartSeedStyle> styleComboBox;
-  private JCheckBox fullScreenCheckBox;
+  private JComboBox<GameSize> sizeComboBox;
   private JSlider speedSlider;
 
   public ConfigDialog() {
@@ -41,10 +40,11 @@ public class ConfigDialog {
     stylePanel.add(styleComboBox);
 
     // Launch Size
-    JPanel fullScreenPanel = new JPanel();
-    fullScreenPanel.setBorder(BorderFactory.createTitledBorder(emptyBorder, "Size"));
-    fullScreenCheckBox = new JCheckBox("Full Screen", false);
-    fullScreenPanel.add(fullScreenCheckBox);
+    JPanel sizePanel = new JPanel();
+    sizePanel.setBorder(BorderFactory.createTitledBorder(emptyBorder, "Game Size"));
+    sizeComboBox = new JComboBox<GameSize>(GameSize.values());
+    sizeComboBox.setSelectedIndex(1); // Default to large
+    sizePanel.add(sizeComboBox);
 
     // Generation Length
     JPanel speedPanel = new JPanel();
@@ -70,7 +70,7 @@ public class ConfigDialog {
     continuePanel.add(continueButton);
 
     dialog.add(stylePanel);
-    dialog.add(fullScreenPanel);
+    dialog.add(sizePanel);
     dialog.add(speedPanel);
     dialog.add(colorPanel);
     dialog.add(continuePanel);
@@ -87,7 +87,7 @@ public class ConfigDialog {
     public void actionPerformed(ActionEvent e) {
       cfg = new Config(
           liveColor != null ? liveColor : Config.DEFAULT_LIVE_COLOR,
-          fullScreenCheckBox.isSelected(),
+          (GameSize) sizeComboBox.getSelectedItem(),
           speedSlider.getValue(),
           (StartSeedStyle) styleComboBox.getSelectedItem());
       dialog.dispose();
