@@ -16,7 +16,7 @@ public class Controller {
 
     gen = new Generation(cfg);
     frame = new GenerationImageFrame(new GenerationImage(cfg, gen), cfg.isFullScreen());
-    gen.advance();
+    gen = gen.getNextGeneration();
 
     timer = new Timer(cfg.getGenLengthMillis(), new TimerEvent());
   }
@@ -30,7 +30,7 @@ public class Controller {
     @Override
     public void actionPerformed(ActionEvent e) {
       frame.updateFrameImage(new GenerationImage(cfg, gen));
-      gen.advance();
+      gen = gen.getNextGeneration();
     }
   }
 }

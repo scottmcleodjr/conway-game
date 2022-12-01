@@ -4,8 +4,7 @@ import java.util.Random;
 
 public class Generation {
 
-  private byte[][] currentState;
-  private byte[][] nextState;
+  private byte[][] state;
   private int cellsHigh;
   private int cellsWide;
 
@@ -24,57 +23,20 @@ public class Generation {
         setCurrentStateToBox();
         break;
     }
-    updateNextState();
+  }
+
+  private Generation(byte[][] state, int cellsHigh, int cellsWide) {
+    this.state = state;
+    this.cellsHigh = cellsHigh;
+    this.cellsWide = cellsWide;
   }
 
   public byte getValueAt(int r, int c) {
-    return currentState[r][c];
+    return state[r][c];
   }
 
-  public void advance() {
-    currentState = nextState;
-    updateNextState();
-  }
-
-  private void setCurrentStateToRandomPattern() {
-    Random randy = new Random();
-    currentState = new byte[cellsHigh][cellsWide];
-    for (int r = 0; r < cellsHigh; r++) {
-      for (int c = 0; c < cellsWide; c++) {
-        if (randy.nextInt(100) < Config.RANDOM_SEED_INIT_DENSITY * 100) {
-          currentState[r][c] = 1;
-        }
-      }
-    }
-  }
-
-  private void setCurrentStateToHorizontalLine() {
-    currentState = new byte[cellsHigh][cellsWide];
-    int mid = cellsHigh / 2;
-    for (int c = 0; c < cellsWide; c++) {
-      currentState[mid][c] = 1;
-    }
-  }
-
-  private void setCurrentStateToBox() {
-    currentState = new byte[cellsHigh][cellsWide];
-    int horizontalTop = cellsHigh / 3;
-    int horizontalBottom = horizontalTop * 2;
-    int verticalLeft = cellsWide / 4; // /4 looks a lot better than 3 here
-    int verticalRight = verticalLeft * 3;
-
-    for (int r = horizontalTop; r <= horizontalBottom; r++) {
-      currentState[r][verticalLeft] = 1;
-      currentState[r][verticalRight] = 1;
-    }
-    for (int c = verticalLeft; c <= verticalRight; c++) {
-      currentState[horizontalTop][c] = 1;
-      currentState[horizontalBottom][c] = 1;
-    }
-  }
-
-  private void updateNextState() {
-    nextState = new byte[cellsHigh][cellsWide];
+  public Generation getNextGeneration() {
+    byte[][] nextState = new byte[cellsHigh][cellsWide];
     /*
      * With 1 representing a live cell and 0 for dead:
      *   If 0 and adjacent to exactly 3 live, then 1
@@ -88,16 +50,16 @@ public class Generation {
         int next_row = r == cellsHigh - 1 ? 0 : r + 1;
         int prev_col = c == 0 ? cellsWide - 1 : c - 1;
         int next_col = c == cellsWide - 1 ? 0 : c + 1;
-        count += currentState[prev_row][prev_col];
-        count += currentState[prev_row][c];
-        count += currentState[prev_row][next_col];
-        count += currentState[r][prev_col];
-        count += currentState[r][next_col];
-        count += currentState[next_row][prev_col];
-        count += currentState[next_row][c];
-        count += currentState[next_row][next_col];
+        count += state[prev_row][prev_col];
+        count += state[prev_row][c];
+        count += state[prev_row][next_col];
+        count += state[r][prev_col];
+        count += state[r][next_col];
+        count += state[next_row][prev_col];
+        count += state[next_row][c];
+        count += state[next_row][next_col];
 
-        if (currentState[r][c] == 1) {
+        if (state[r][c] == 1) {
           if (count == 2 || count == 3) {
             nextState[r][c] = 1;
           }
@@ -105,6 +67,44 @@ public class Generation {
           nextState[r][c] = 1;
         }
       }
+    }
+    return new Generation(nextState, cellsHigh, cellsWide);
+  }
+
+  private void setCurrentStateToRandomPattern() {
+    Random randy = new Random();
+    state = new byte[cellsHigh][cellsWide];
+    for (int r = 0; r < cellsHigh; r++) {
+      for (int c = 0; c < cellsWide; c++) {
+        if (randy.nextInt(100) < Config.RANDOM_SEED_INIT_DENSITY * 100) {
+          state[r][c] = 1;
+        }
+      }
+    }
+  }
+
+  private void setCurrentStateToHorizontalLine() {
+    state = new byte[cellsHigh][cellsWide];
+    int mid = cellsHigh / 2;
+    for (int c = 0; c < cellsWide; c++) {
+      state[mid][c] = 1;
+    }
+  }
+
+  private void setCurrentStateToBox() {
+    state = new byte[cellsHigh][cellsWide];
+    int horizontalTop = cellsHigh / 3;
+    int horizontalBottom = horizontalTop * 2;
+    int verticalLeft = cellsWide / 4; // /4 looks a lot better than 3 here
+    int verticalRight = verticalLeft * 3;
+
+    for (int r = horizontalTop; r <= horizontalBottom; r++) {
+      state[r][verticalLeft] = 1;
+      state[r][verticalRight] = 1;
+    }
+    for (int c = verticalLeft; c <= verticalRight; c++) {
+      state[horizontalTop][c] = 1;
+      state[horizontalBottom][c] = 1;
     }
   }
 }
