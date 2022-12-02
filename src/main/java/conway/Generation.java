@@ -22,6 +22,9 @@ public class Generation {
       case BOX:
         setCurrentStateToBox();
         break;
+      case GLIDERS:
+        setCurrentStateToGliders();
+        break;
     }
   }
 
@@ -105,6 +108,24 @@ public class Generation {
     for (int c = verticalLeft; c <= verticalRight; c++) {
       state[horizontalTop][c] = 1;
       state[horizontalBottom][c] = 1;
+    }
+  }
+
+  private void setCurrentStateToGliders() {
+    state = new byte[cellsHigh][cellsWide];
+    int gliderSpacing = 30; // Seems to look nice.
+    for (int y = 0; y < cellsHigh - gliderSpacing; y += gliderSpacing) {
+      for (int x = 0; x < cellsWide - gliderSpacing; x += gliderSpacing) {
+        /* The glider:
+           0 1 0
+           0 0 1
+           1 1 1 */
+        state[y][x+1] = 1;
+        state[y+1][x+2] = 1;
+        state[y+2][x] = 1;
+        state[y+2][x+1] = 1;
+        state[y+2][x+2] = 1;
+      }
     }
   }
 }

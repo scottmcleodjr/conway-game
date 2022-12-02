@@ -18,5 +18,11 @@ public enum StartSeedStyle {
     public String toString() {
       return "Box";
     }
+  },
+  GLIDERS {
+    @Override
+    public String toString() {
+      return "Gliders";
+    }
   };
 }
