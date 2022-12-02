@@ -1,8 +1,7 @@
 package conway;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.Timer;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Controller {
 
@@ -18,17 +17,17 @@ public class Controller {
     frame = new GenerationImageFrame(new GenerationImage(cfg, gen), cfg.isFullScreen());
     gen = gen.getNextGeneration();
 
-    timer = new Timer(cfg.getGenLengthMillis(), new TimerEvent());
+    timer = new Timer();
   }
 
   public void start() {
     frame.show();
-    timer.start();
+    timer.scheduleAtFixedRate(new UpdateImageTask(), 0, cfg.getGenLengthMillis());
   }
 
-  private class TimerEvent implements ActionListener {
+  private class UpdateImageTask extends TimerTask {
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void run() {
       frame.updateFrameImage(new GenerationImage(cfg, gen));
       gen = gen.getNextGeneration();
     }
