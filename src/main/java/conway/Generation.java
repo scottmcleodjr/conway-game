@@ -34,8 +34,8 @@ public class Generation {
     this.cellsWide = cellsWide;
   }
 
-  public byte getValueAt(int r, int c) {
-    return state[r][c];
+  public byte getValueAt(int y, int x) {
+    return state[y][x];
   }
 
   public Generation getNextGeneration() {
@@ -46,28 +46,28 @@ public class Generation {
      *   If 1 and adjacent to 2 or 3 live, then 1
      *   If 1 and adjacent to (else), then 0
      */
-    for (int r = 0; r < cellsHigh; r++) {
-      for (int c = 0; c < cellsWide; c++) {
+    for (int y = 0; y < cellsHigh; y++) {
+      for (int x = 0; x < cellsWide; x++) {
         int count = 0;
-        int prev_row = r == 0 ? cellsHigh - 1 : r - 1;
-        int next_row = r == cellsHigh - 1 ? 0 : r + 1;
-        int prev_col = c == 0 ? cellsWide - 1 : c - 1;
-        int next_col = c == cellsWide - 1 ? 0 : c + 1;
+        int prev_row = y == 0 ? cellsHigh - 1 : y - 1;
+        int next_row = y == cellsHigh - 1 ? 0 : y + 1;
+        int prev_col = x == 0 ? cellsWide - 1 : x - 1;
+        int next_col = x == cellsWide - 1 ? 0 : x + 1;
         count += state[prev_row][prev_col];
-        count += state[prev_row][c];
+        count += state[prev_row][x];
         count += state[prev_row][next_col];
-        count += state[r][prev_col];
-        count += state[r][next_col];
+        count += state[y][prev_col];
+        count += state[y][next_col];
         count += state[next_row][prev_col];
-        count += state[next_row][c];
+        count += state[next_row][x];
         count += state[next_row][next_col];
 
-        if (state[r][c] == 1) {
+        if (state[y][x] == 1) {
           if (count == 2 || count == 3) {
-            nextState[r][c] = 1;
+            nextState[y][x] = 1;
           }
         } else if (count == 3) { // Current cell is dead
-          nextState[r][c] = 1;
+          nextState[y][x] = 1;
         }
       }
     }
@@ -77,10 +77,10 @@ public class Generation {
   private void setCurrentStateToRandomPattern() {
     Random randy = new Random();
     state = new byte[cellsHigh][cellsWide];
-    for (int r = 0; r < cellsHigh; r++) {
-      for (int c = 0; c < cellsWide; c++) {
+    for (int y = 0; y < cellsHigh; y++) {
+      for (int x = 0; x < cellsWide; x++) {
         if (randy.nextInt(100) < Config.RANDOM_SEED_INIT_DENSITY * 100) {
-          state[r][c] = 1;
+          state[y][x] = 1;
         }
       }
     }
@@ -89,8 +89,8 @@ public class Generation {
   private void setCurrentStateToHorizontalLine() {
     state = new byte[cellsHigh][cellsWide];
     int mid = cellsHigh / 2;
-    for (int c = 0; c < cellsWide; c++) {
-      state[mid][c] = 1;
+    for (int x = 0; x < cellsWide; x++) {
+      state[mid][x] = 1;
     }
   }
 
@@ -101,13 +101,13 @@ public class Generation {
     int verticalLeft = cellsWide / 4; // /4 looks a lot better than 3 here
     int verticalRight = verticalLeft * 3;
 
-    for (int r = horizontalTop; r <= horizontalBottom; r++) {
-      state[r][verticalLeft] = 1;
-      state[r][verticalRight] = 1;
+    for (int y = horizontalTop; y <= horizontalBottom; y++) {
+      state[y][verticalLeft] = 1;
+      state[y][verticalRight] = 1;
     }
-    for (int c = verticalLeft; c <= verticalRight; c++) {
-      state[horizontalTop][c] = 1;
-      state[horizontalBottom][c] = 1;
+    for (int x = verticalLeft; x <= verticalRight; x++) {
+      state[horizontalTop][x] = 1;
+      state[horizontalBottom][x] = 1;
     }
   }
 
