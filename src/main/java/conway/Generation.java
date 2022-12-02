@@ -22,6 +22,9 @@ public class Generation {
       case BOX:
         setCurrentStateToBox();
         break;
+      case CROSS:
+        setCurrentStateToCross();
+        break;
       case GLIDERS:
         setCurrentStateToGliders();
         break;
@@ -108,6 +111,22 @@ public class Generation {
     for (int x = verticalLeft; x <= verticalRight; x++) {
       state[horizontalTop][x] = 1;
       state[horizontalBottom][x] = 1;
+    }
+  }
+
+  private void setCurrentStateToCross() {
+    state = new byte[cellsHigh][cellsWide];
+
+    int yMid = cellsHigh / 2;
+    int horizontalBuffer = (int) (cellsWide * 0.05);
+    for (int x = horizontalBuffer; x < cellsWide - horizontalBuffer; x++) {
+      state[yMid][x] = 1;
+    }
+
+    int xMid = cellsWide / 2;
+    int verticalBuffer = (int) (cellsHigh * 0.05);
+    for (int y = verticalBuffer; y < cellsHigh - verticalBuffer; y++) {
+      state[y][xMid] = 1;
     }
   }
 

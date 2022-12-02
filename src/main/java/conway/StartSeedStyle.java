@@ -19,6 +19,12 @@ public enum StartSeedStyle {
       return "Box";
     }
   },
+  CROSS {
+    @Override
+    public String toString() {
+      return "Cross";
+    }
+  },
   GLIDERS {
     @Override
     public String toString() {
