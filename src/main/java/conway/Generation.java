@@ -16,6 +16,9 @@ public class Generation {
       case RANDOM:
         setCurrentStateToRandomPattern();
         break;
+      case SYMMETRICAL_RANDOM:
+        setCurrentStateToSymmetricalRandomPattern();
+        break;
       case HORIZONTAL_LINE:
         setCurrentStateToHorizontalLine();
         break;
@@ -85,6 +88,36 @@ public class Generation {
         if (randy.nextInt(100) < Config.RANDOM_SEED_INIT_DENSITY * 100) {
           state[y][x] = 1;
         }
+      }
+    }
+  }
+
+  private void setCurrentStateToSymmetricalRandomPattern() {
+    Random randy = new Random();
+    state = new byte[cellsHigh][cellsWide];
+    int yMid = cellsHigh / 2;
+    int xMid = cellsWide / 2;
+
+    // Top left quadrant
+    for (int y = 0; y < yMid; y++) {
+      for (int x = 0; x < xMid; x++) {
+        if (randy.nextInt(100) < Config.RANDOM_SEED_INIT_DENSITY * 100) {
+          state[y][x] = 1;
+        }
+      }
+    }
+
+    // Mirror top left to the right
+    for (int y = 0; y < yMid; y++) {
+      for (int x = 0; x < xMid; x++) {
+        state[y][cellsWide - 1 - x] = state[y][x];
+      }
+    }
+
+    // Mirror top half to the bottom
+    for (int y = 0; y < yMid; y++) {
+      for (int x = 0; x < cellsWide; x++) {
+        state[cellsHigh - 1 - y][x] = state[y][x];
       }
     }
   }

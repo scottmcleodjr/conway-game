@@ -7,6 +7,12 @@ public enum StartSeedStyle {
       return "Random";
     }
   },
+  SYMMETRICAL_RANDOM {
+    @Override
+    public String toString() {
+      return "Symmetrical Random";
+    }
+  },
   HORIZONTAL_LINE {
     @Override
     public String toString() {
