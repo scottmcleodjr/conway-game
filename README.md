@@ -1,32 +1,30 @@
-## (Another Version of) Conway's Game of Life
+## **A Conway Game**
 
-![Screenshot](screenshot.jpg)
+![Screenshot 1](demo.png)
 
-Conway's Game of Life is a no-player game (effectively an animation) that proceeds from a starting layout or 'seed' according to pre-determined rules.
+This is a Java (Swing) implementation of [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life) with support for:
+- 6 seed styles (Random, Horizontal Line, Gliders, etc.)
+- 4 sizes (Full Screen, Large, Medium, Small)
+- Generation lengths from 50ms to 1s
+- Configurable live cell color
 
-More information about the game can be found [here](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life).
+### **Updates**
 
-### Setup
+This was one of my first projects.  I came back about 4 years later with the idea that I would rewrite this in another language.  I did proof of concept versions in Scheme, Python, and Tcl before giving in and overhauling this version.  The overhaul included three new seed styles, two more size options, and a lot of refactoring.
 
-The program only requires Maven and a recent(ish) version of Java. You'll need to...
+I have ideas for where this could go from here, but it will have to wait again.
 
-1) Clone the repo: `git clone https://gitlab.com/s.mcleodjr/conway-game.git`
-2) Open the repo: `cd conway-game`
-3) Compile and create a jar file: `mvn package`
-4) Run the program: `java -jar target/conway-1.0-SNAPSHOT.jar`
+### **Build & Run**
 
-### Configuration Options
+The application is built with Maven:
 
-###### Current
+```
+git clone https://github.com/scottmcleodjr/conway-game.git
+cd conway-game
+mvn package
+java -jar target/conway-1.2.0.jar
+```
 
-The initial configuration prompt provides options for the starting style (a random pattern, a horizontal line, or a box), full screen animation, the speed of animation (ranging from 25 to 925 ms), and the color of 'live' pixels.
+### **Credits**
 
-###### Future
-
-Potential future options for development include:
-* More starting styles, including symmetrical random.
-* Control of cell size (> 1px X 1px).
-
-### Credits
-
-Thanks and acknowledgments to jpetrich for review and testing.
+Thanks and acknowledgements to jpetrich for review and testing.
