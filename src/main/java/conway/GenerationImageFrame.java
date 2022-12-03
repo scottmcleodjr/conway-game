@@ -26,9 +26,9 @@ public class GenerationImageFrame {
       frame.setUndecorated(true);
     } else {
       // Get the frame off the upper edge of the screen if not
-      int w = (int) (Toolkit.getDefaultToolkit().getScreenSize().width * 0.1);
-      int h = (int) (Toolkit.getDefaultToolkit().getScreenSize().height * 0.1);
-      frame.setLocation(w, h);
+      int x = (int) (Toolkit.getDefaultToolkit().getScreenSize().width * 0.1);
+      int y = (int) (Toolkit.getDefaultToolkit().getScreenSize().height * 0.1);
+      frame.setLocation(x, y);
     }
 
     try {
